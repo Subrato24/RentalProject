@@ -1,0 +1,65 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model List<CustomerDetails>
+<partial name="_Notification" />
+
+<div>
+    @if (Model == null || !Model.Any())
+    {
+        <h1 class="text-center text-danger">No data in record !!!</h1>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                @foreach (var obj in Model)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                        <div class="card shadow-sm p-2" style="width: 14rem;">
+                            <img src="@(!string.IsNullOrEmpty(obj.ProfileImageUrl) ? Url.Content(obj.ProfileImageUrl) : Url.Content("~/lib/default-profile.png"))"
+                                 class="card-img-top mx-auto d-block"
+                                 alt="Customer Image"
+                                 style="height: 150px; width: 150px; object-fit: cover; border-radius: 10px;">
+
+
+                            <div class="card-body p-2 text-center">
+                                <p class="small mb-1"><strong>Name:</strong> @obj.Name</p>
+                                <p class="small mb-1"><strong>Email:</strong> @obj.Email</p>
+                                <p class="small mb-1"><strong>Phone:</strong> @obj.Phone</p>
+                                <p class="small mb-1"><strong>Address:</strong> @obj.Address</p>
+                                <p class="small mb-1"><strong>Deposit:</strong> @obj.Deposit</p>
+                                <p class="small mb-2"><strong>Joining:</strong> @obj.JoiningDate</p>
+
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a asp-controller="CustomerStatus" asp-action="Index" asp-route-Id="@obj.CustomerDetailId" class="btn btn-success btn-sm" title="View Details">
+                                        <i class="bi bi-search"></i>
+                                    </a>
+                                    <a asp-controller="CustomerDetail" asp-action="Details" asp-route-Id="@obj.CustomerDetailId" class="btn btn-secondary btn-sm" title="View IdProof">
+                                        <i class="bi bi-person-vcard"></i>
+                                    </a>
+                                    @if (HttpContextAccessor.HttpContext.Session.GetString("Username") == "Admin")
+                                    {
+                                        <a asp-controller="CustomerDetail" asp-action="EditCustomer" asp-route-Id="@obj.CustomerDetailId" class="btn btn-info btn-sm" title="Edit Customer">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a asp-controller="CustomerDetail" asp-action="DeleteCustomer" asp-route-Id="@obj.CustomerDetailId" class="btn btn-danger btn-sm" title="Delete Customer">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<div class="mt-3 text-center">
+    @if (HttpContextAccessor.HttpContext.Session.GetString("Username") == "Admin")
+    {
+        <a asp-controller="CustomerDetail" asp-action="AddCustomer" class="btn btn-primary">
+            <i class="bi bi-person-plus"></i> Add Customer
+        </a>
+    }
+</div>

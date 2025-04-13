@@ -1,0 +1,37 @@
+﻿@model CustomerStatus
+
+<h1>Customer Status</h1>
+
+<form asp-action="AddStatus" method="post">
+    <input type="hidden" asp-for="CustomerDetailId" />
+
+    <div class="form-group">
+        <label asp-for="Rent">Rent</label>
+        <input asp-for="Rent" class="form-control" placeholder="Enter Rent Amount">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Ebill">Ebill</label>
+        <input asp-for="Ebill" class="form-control" placeholder="Enter Ebill Amount">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Date">Date</label>
+        <input asp-for="Date" type="date" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="Due">Due</label>
+        <input asp-for="Due" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status">Status</label>
+        <input asp-for="Status" class="form-control" placeholder="Enter Status">
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i> Add</button>
+        <a asp-controller="CustomerStatus" asp-action="Index" class="btn btn-dark"><i class="bi bi-backspace"></i> Back</a>
+    </div>
+</form>
+            

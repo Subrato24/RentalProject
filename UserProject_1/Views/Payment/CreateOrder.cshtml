@@ -1,0 +1,41 @@
+﻿@model string
+@{
+    ViewData["Title"] = "Make Payment";
+}
+
+<h2>Make Payment</h2>
+<button id="pay-btn">Pay Rent</button>
+<div>
+    <img src="https://media.giphy.com/media/8gjWMXlOrfUik0NvR2/giphy.gif?cid=ecf05e47qyf04qgtepn1w405r614ougt3s7nnbjqnvzdi147&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Description of the GIF" />
+</div>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "@ViewData["RazorpayKey"]", // ✅ Fix Razorpay Key
+        "amount": 400000, // Amount in paise (₹4000)
+        "currency": "INR",
+        "name": "Your Company Name",
+        "description": "Rental Payment",
+        "order_id": "@Model", // ✅ Ensure order_id is correct
+        "handler": function (response) {
+            alert('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
+            window.location.href = "/Payment/Success?paymentId=" + response.razorpay_payment_id;
+        },
+        "prefill": {
+            "name": "Customer Name",
+            "email": "customer@example.com",
+            "contact": "9999999999"
+        },
+        "theme": {
+            "color": "#528FF0"
+        }
+    };
+
+    var rzp = new Razorpay(options);
+    document.getElementById('pay-btn').onclick = function (e) {
+        rzp.open();
+        e.preventDefault();
+    };
+</script>
