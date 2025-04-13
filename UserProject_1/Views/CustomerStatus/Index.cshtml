@@ -1,0 +1,56 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model List<CustomerStatus>
+@{
+    var customerId = ViewData["CustomerId"];
+}
+<partial name="_Notification" />
+<div>
+    @if (Model == null || !Model.Any())
+    {
+        <h1>No data in record !!!</h1>
+    }
+    else
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Rent</th>
+                    <th>Ebill</th>
+                    <th>Due</th>
+                    <th>Status</th>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("Username") == "Admin")
+                    {
+                        <th>Operations</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td>@obj.Date</td>
+                        <td>@obj.Rent</td>
+                        <td>@obj.Ebill</td>
+                        <td>@obj.Due</td>
+                        <td>@obj.Status</td>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("Username") == "Admin")
+                        {
+                            <td>
+                                <a asp-controller="CustomerStatus" asp-action="EditStatus" asp-route-Id="@obj.Id" class="btn btn-info"><i class="bi bi-pencil-square"></i>Edit</a>
+                                <a asp-controller="CustomerStatus" asp-action="DeleteStatus" asp-route-Id="@obj.Id" class="btn btn-danger"><i class="bi bi-trash"></i>Delete</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<div>
+    @if (HttpContextAccessor.HttpContext.Session.GetString("Username") == "Admin")
+    {
+        <a asp-controller="CustomerStatus" asp-route-customerID="@customerId" asp-action="AddStatus" class="btn btn-primary"><i class="bi bi-person-plus"></i> Add</a>
+    }
+    <a asp-controller="CustomerDetail" asp-action="Index" class="btn btn-dark"><i class="bi bi-backspace"></i> Back</a>
+</div>

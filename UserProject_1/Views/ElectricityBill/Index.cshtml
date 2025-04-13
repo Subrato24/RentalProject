@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Electricity Bill Calculation";
+}
+
+<h2 class="text-center mb-4">Calculate Electricity Bill</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Electricity Bill Calculation Form -->
+            <form method="post" action="/ElectricityBill/CalculateBill">
+                <div class="form-group">
+                    <label for="currentReading">Current Reading:</label>
+                    <input type="number" id="currentReading" name="currentReading" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="previousReading">Previous Reading:</label>
+                    <input type="number" id="previousReading" name="previousReading" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="chargePerUnit">Charge Per Unit (₹):</label>
+                    <input type="number" id="chargePerUnit" name="chargePerUnit" class="form-control" required />
+                </div>
+
+                <div class="form-group text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Calculate Bill</button>
+                </div>
+            </form>
+
+            <!-- Display Bill Amount -->
+            @if (ViewBag.BillAmount != null)
+            {
+                <div class="mt-4 text-center">
+                    <h3>Calculated Bill: ₹@ViewBag.BillAmount</h3>
+                    <div style="margin-block:12px">
+                        <img src="https://media.giphy.com/media/1k3jEsS507T20/giphy.gif?cid=790b7611us5jv7t56yz5lmkdyq54n6vf30iap7kp51wcwfd7&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Not loaded" class="img-fluid" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control {
+        height: 45px; /* Make inputs taller like a calculator */
+    }
+
+    .btn {
+        font-size: 18px;
+    }
+
+    .container {
+        margin-top: 30px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .img-fluid {
+        max-width: 150px;
+    }
+</style>
